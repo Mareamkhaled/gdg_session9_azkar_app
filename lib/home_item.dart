@@ -1,74 +1,87 @@
+import 'package:azkar/cubit/cubit/azkar_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeItem extends StatefulWidget {
+class HomeItem extends StatelessWidget {
   const HomeItem({super.key, required this.text});
   final String text;
 
   @override
-  State<HomeItem> createState() => _HomeItemState();
-}
-
-class _HomeItemState extends State<HomeItem> {
-  int counter=0;
-  FlutterTts flutterTts = FlutterTts();
-  void speak(String text) async{
-   await flutterTts.setLanguage("ar");
-   await flutterTts.setPitch(1.0);
-   await flutterTts.setSpeechRate(0.5);
-   await flutterTts.speak(text);
-
-
-  }
-
-  @override
   Widget build(BuildContext context) {
-    print("ppppppp");
-    return  Column(
-          children: [
-            Image.asset("assets/quran.png"),
-            Text(
-             widget.text,
-              style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
-            ),
-            Text(
-              '$counter',
-              style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  iconSize: 50,
-                  onPressed: () {
-                    setState(() {
-                      counter =0;
-                    });
-                  },
-                  icon: Icon(Icons.refresh),
-                ),
-                IconButton(
-                  iconSize: 50,
-                  onPressed: () {
-                   setState(() {
-                     counter++;
-                   });
-                  },
-                  icon: Icon(Icons.add),
-                ),
-                IconButton(
-                  iconSize: 50,
-                  onPressed: () {
-                    setState(() {
-                      speak(widget.text);
-                    });
-                  },
-                  icon: Icon(Icons.hearing),
-                ),
-              ],
-            )
-          ],
-        );
+    //  int counter = 0;
+
+    // print("ppppppp");
+    return BlocProvider(
+      create: (context) => AzkarCubit(),
+      child: Column(
+        children: [
+          Image.asset("assets/quran.png"),
+          Text(
+            text,
+            style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
+          ),
+          BlocBuilder<AzkarCubit, AzkarState>(
+            builder: (context, state) {
+              return Text(
+                '${state.counter}',
+                style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
+              );
+            },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              BlocBuilder<AzkarCubit, AzkarState>(
+                builder: (context, state) {
+                  return IconButton(
+                    iconSize: 50,
+                    onPressed: () {
+                      context.read<AzkarCubit>().resetCounter();
+                      // setState(() {
+                      //   counter = 0;
+                      // });
+                    },
+                    icon: Icon(Icons.refresh),
+                  );
+                },
+              ),
+              BlocBuilder<AzkarCubit, AzkarState>(
+                builder: (context, state) {
+                  return IconButton(
+                    iconSize: 50,
+                    onPressed: () {
+                      // print(state.counter);
+
+                      context.read<AzkarCubit>().addCounter();
+                      // print(state.counter);
+
+                      // setState(() {
+                      //   counter++;
+                      // });
+                    },
+                    icon: Icon(Icons.add),
+                  );
+                },
+              ),
+              BlocBuilder<AzkarCubit, AzkarState>(
+                builder: (context, state) {
+                  return IconButton(
+                    iconSize: 50,
+                    onPressed: () {
+                      context.read<AzkarCubit>().speak(text);
+                      // setState(() {
+                      //   speak(widget.text);
+                      // });
+                    },
+                    icon: Icon(Icons.hearing),
+                  );
+                },
+              ),
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
 

@@ -8,7 +8,7 @@ class HomeScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller =usePageController();
+    final controller = usePageController();
     return Scaffold(
       // backgroundColor: LinearGradient(colors: colors),
       body: Container(
@@ -21,37 +21,31 @@ class HomeScreen extends HookWidget {
         )),
         child: Center(
           child: Column(
-            
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 200,),
+              SizedBox(
+                height: 200,
+              ),
               Expanded(
                 child: PageView(
                   controller: controller,
                   // controller: controller,
                   children: [
-                HomeItem(text: "سبحان الله و بحمده"),
-                HomeItem(text: "سبحان الله العظيم"),
-                HomeItem(text: "الله اكبر"),
-                HomeItem(text: "لا اله الا الله")
-                       
-                
+                    HomeItem(text: "سبحان الله و بحمده"),
+                    HomeItem(text: "سبحان الله العظيم"),
+                    HomeItem(text: "الله اكبر"),
+                    HomeItem(text: "لا اله الا الله")
                   ],
                 ),
               ),
-
               SmoothPageIndicator(
-                effect: WormEffect(
-                  activeDotColor: Colors.black,
-                  dotColor: Colors.white
-                  
-                ),
-                controller: controller,
-                
-                
-                 count: 4),
-
-                SizedBox(height: 30,)
+                  effect: WormEffect(
+                      activeDotColor: Colors.black, dotColor: Colors.white),
+                  controller: controller,
+                  count: 4),
+              SizedBox(
+                height: 30,
+              )
             ],
           ),
         ),
@@ -62,4 +56,4 @@ class HomeScreen extends HookWidget {
 
 // liner gradient
 
-// page view 
+// page view
