@@ -9,8 +9,7 @@ class HomeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      // Create a new instance of AzkarCubit for each HomeItem
-      create: (context) => AzkarCubit(),
+      create: (context) => AzkarCubit(id: text), // Pass a unique ID
       child: Builder(
         builder: (context) {
           return Column(
